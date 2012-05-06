@@ -46,7 +46,11 @@
             <fileset dir="${build.dir}">
                 <!-- set the classes to be included for your client.-->
             	<!--<include name="dst2/server/sessionBeans/TestingBean.class"/>-->
+            	<include name="dst2/server/interfaces/IPriceManagementBean.class"/>
                 <include name="dst2/server/interfaces/TestingBeanInterface.class"/>
+            	<include name="dst2/server/utils/exceptions/NoJobsAssignedException.class"/>
+            	<include name="dst2/server/utils/exceptions/UserNameNotFoundException.class"/>	
+            	<include name="dst2/server/utils/exceptions/NoUserExists.class"/>	
             </fileset>
         </jar>
     </target>

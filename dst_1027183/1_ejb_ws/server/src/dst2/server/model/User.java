@@ -5,7 +5,10 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -55,6 +58,16 @@ import javax.persistence.UniqueConstraint;
 //
 //			)
 //})
+//@NamedQueries({
+//	@NamedQuery(
+//			name = "SelectAllUser",
+//			query = "select u from User u"
+//			),
+//	@NamedQuery(
+//			name = "SelectUserByName",
+//			query = "select u from User u where username like :username"
+//			)
+//})
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames={"accountNo","bankCode"})})
 @PrimaryKeyJoinColumn(name="person_id")
@@ -88,6 +101,9 @@ public class User extends Person{
 	
 	@OneToMany
 	private List<Membership> membership = new ArrayList<Membership>();
+	
+	@OneToOne
+	private PriceStep priceStep;
 	
 	/*********************************************      GETTERS - SETTERS           *************************************************/
 	
@@ -178,6 +194,14 @@ public class User extends Person{
 
 	public void setMembership(List<Membership> membership) {
 		this.membership = membership;
+	}
+
+	public PriceStep getPriceStep() {
+		return priceStep;
+	}
+
+	public void setPriceStep(PriceStep priceStep) {
+		this.priceStep = priceStep;
 	}
 	
 	

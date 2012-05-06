@@ -8,9 +8,11 @@ public class Main {
 	
 	public static void main(String[] args){
 		
+		
+		
 		BeanCaller b = new BeanCaller();
 		b.callFillTestData();
-
+		b.callStorePriceSteps();
 	}
 	
 }
