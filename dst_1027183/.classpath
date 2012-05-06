@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="1_ejb_ws/client/src"/>
+	<classpathentry kind="src" path="1_ejb_ws/server/src"/>
+	<classpathentry kind="src" path="1_ejb_ws/server/config"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="lib/javassist.jar"/>
+	<classpathentry kind="lib" path="lib/jaxws-api.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.11-bin.jar"/>
+	<classpathentry kind="lib" path="C:/glassfish3/glassfish/lib/javaee.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
