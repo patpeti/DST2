@@ -44,7 +44,7 @@ public class TestingBean implements TestingBeanInterface {
 	private EntityManager em;
 
 	public TestingBean() {
-		System.out.println("################################################ TESTING BEAN INITIALIZED");
+		System.out.println("################################################ TESTING BEAN INITIALIZED #######################################################");
 	}
 	
 	public void fillTestData(){
