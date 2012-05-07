@@ -6,10 +6,9 @@ import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 @Entity
-public class PriceStep implements Serializable{
+public class PriceStep implements Serializable, Comparable<PriceStep>{
 	
 	/**
 	 * 
@@ -20,8 +19,6 @@ public class PriceStep implements Serializable{
 	private long id;
 	private int numberofHistoricalJobs;
 	private BigDecimal price;
-	@OneToOne(mappedBy = "priceStep")
-	private User user;
 	
 	public long getId() {
 		return id;
@@ -43,15 +40,15 @@ public class PriceStep implements Serializable{
 		this.price = price;
 	}
 
-	public User getUser() {
-		return user;
+	@Override
+	public int compareTo(PriceStep o) {
+	        if (this.numberofHistoricalJobs == o.getNumberofHistoricalJobs())
+	            return 0;
+	        else if ((this.numberofHistoricalJobs) > (o.getNumberofHistoricalJobs()))
+	            return 1;
+	        else
+	            return -1;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
-	
-	
 	
 }

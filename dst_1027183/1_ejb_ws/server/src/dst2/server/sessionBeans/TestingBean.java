@@ -10,6 +10,7 @@ import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import dst2.server.interfaces.TestingBeanInterface;
 import dst2.server.model.Address;
@@ -48,7 +49,12 @@ public class TestingBean implements TestingBeanInterface {
 	}
 	
 	public void fillTestData(){
-
+		//check whether DB is empty
+		Query q = em.createQuery("select u from User u");
+		List<User> users = (List<User>) q.getResultList();
+		if(users == null || users.isEmpty()){
+			
+			
 		//two grids
 		Grid g1 = new Grid();
 		g1.setCostsPerCPUMinute(new BigInteger("1"));
@@ -228,6 +234,8 @@ public class TestingBean implements TestingBeanInterface {
 		em.persist(cl2);
 		
 		LOG.info("*******FINISHED*********");
+		
+		}
 	}
 	
 	public void setEm(EntityManager em){

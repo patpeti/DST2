@@ -1,15 +1,13 @@
 package dst2.client;
 
+import java.math.BigDecimal;
 import java.util.logging.Logger;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import dst2.server.interfaces.IPriceManagementBean;
+import dst2.server.interfaces.IGeneralManagementBean;
 import dst2.server.interfaces.TestingBeanInterface;
-import dst2.server.utils.exceptions.NoJobsAssignedException;
-import dst2.server.utils.exceptions.NoUserExists;
-import dst2.server.utils.exceptions.UserNameNotFoundException;
 
 
 
@@ -35,26 +33,15 @@ public class BeanCaller{
 	public void callStorePriceSteps(){
 		try {
 		
-		IPriceManagementBean p;
+		IGeneralManagementBean g;
 		
-		p = (IPriceManagementBean) InitialContext.doLookup("java:global/dst2_1/PriceManagementBean");
-		try {
-			
-			p.storeStepToUser("patonaipeter");
-			
-			//testing exception
-			p.storeStepToUser("nonExistinguSer");
-			
-			p.storePriceSteps();
-			
-		} catch (UserNameNotFoundException e) {
-			LOG.info(e.getMessage());
-		} catch (NoJobsAssignedException e) {
-			LOG.info(e.getMessage());
-		} catch (NoUserExists e) {
-			LOG.info(e.getMessage());
-		}	
-		LOG.info("PriceSteps Added");
+		g = (IGeneralManagementBean) InitialContext.doLookup("java:global/dst2_1/GeneralManagementBean");
+		//int numJob = 600;
+		g.storePriceStep(100,new BigDecimal(30));
+		g.storePriceStep(1000,new BigDecimal(15));
+		g.storePriceStep(5000,new BigDecimal(5));
+	
+		LOG.info("Prices Added");
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}

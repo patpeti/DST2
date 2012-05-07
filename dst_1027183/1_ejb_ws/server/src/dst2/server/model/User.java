@@ -5,10 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -102,8 +99,6 @@ public class User extends Person{
 	@OneToMany
 	private List<Membership> membership = new ArrayList<Membership>();
 	
-	@OneToOne
-	private PriceStep priceStep;
 	
 	/*********************************************      GETTERS - SETTERS           *************************************************/
 	
@@ -196,13 +191,7 @@ public class User extends Person{
 		this.membership = membership;
 	}
 
-	public PriceStep getPriceStep() {
-		return priceStep;
-	}
 
-	public void setPriceStep(PriceStep priceStep) {
-		this.priceStep = priceStep;
-	}
 	
 	
 	

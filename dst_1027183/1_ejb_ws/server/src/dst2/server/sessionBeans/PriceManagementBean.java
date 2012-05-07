@@ -1,112 +1,108 @@
 package dst2.server.sessionBeans;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import javax.ejb.Remote;
-import javax.ejb.Stateless;
+import javax.annotation.PostConstruct;
+import javax.ejb.ConcurrencyManagement;
+import javax.ejb.ConcurrencyManagementType;
+import javax.ejb.Lock;
+import javax.ejb.LockType;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import dst2.server.interfaces.IPriceManagementBean;
-import dst2.server.model.Job;
 import dst2.server.model.PriceStep;
-import dst2.server.model.User;
-import dst2.server.utils.exceptions.NoJobsAssignedException;
-import dst2.server.utils.exceptions.NoUserExists;
-import dst2.server.utils.exceptions.UserNameNotFoundException;
 
-@Stateless(mappedName = "PriceManagementBean")
-@Remote(IPriceManagementBean.class)
+@Startup
+@Singleton
+@ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 public class PriceManagementBean implements IPriceManagementBean {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5084960710257952405L;
 	
+	private List<PriceStep> steps = new ArrayList<PriceStep>();
+	
 	@PersistenceContext(name="grid")
 	private EntityManager em;
 	
-	/**
-	 * update all user with PriceStep Entity
-	 * @throws NoUserExists 
-	 */
+
+	
 	@Override
-	public void storePriceSteps() throws NoUserExists {
+	public BigDecimal getPriceForGivenNumberOfJobs(int sum) {
 		
-		//select users 
-		
-		Query query = em.createNamedQuery("select u from User");
-		List<User> uList = (List<User>) query.getResultList();
-		if(uList == null) throw new NoUserExists();
-		if(uList.isEmpty())  throw new NoUserExists();
-		//for every user count jobs that are paid and create a PriceStep 
-		for(User u : uList){
-			
-			int sum = 0;
-			for(Job j : u.getJobs()){
-				if(j.isPaid()) sum++;
+		PriceStep step = null;	
+		for(PriceStep s : steps){
+			/*
+			 * since pricesteps are ordered
+			 * the fist pricestep wohse number of jobs is bigger than the input
+			 * is the one we need
+			 */
+			if(sum < s.getNumberofHistoricalJobs()){
+				step = s;
+				break;
 			}
+		}
+		
+		
+		if(step == null) System.out.println("NO PRICESTEP");
 			
-			PriceStep p  = u.getPriceStep();
-			if(p == null){
-				//create PriceStep
-				p = new PriceStep();
-				p.setUser(u);
-				u.setPriceStep(p);
-			}
-			p.setNumberofHistoricalJobs(sum);
-			//Reziproke Proportionalität
-			p.setPrice(new BigDecimal(100/(sum+1)));
 			
-		
-			em.persist(p);
-		}
-	}
-	
-	/**
-	 * update given user with priceStep
-	 */
-	public void storeStepToUser(String username) throws UserNameNotFoundException, NoJobsAssignedException{
-	
-		//get user by username
-		//Query query = em.createNamedQuery("SelectUserByUsername");
-		Query query = em.createQuery("select u from User u where u.username like :username");
-		query.setParameter("username", username);
-		List<User> uList = (List<User>) query.getResultList();
-		
-		if(uList == null) throw new UserNameNotFoundException();
-		if(uList.isEmpty()) throw new UserNameNotFoundException();	
-		
-		User u = uList.get(0);
-		
-		int sum = 0;
-		
-		if(u.getJobs() == null) throw new NoJobsAssignedException();
-		if(u.getJobs().isEmpty()) throw new NoJobsAssignedException();
-		
-		for(Job j : u.getJobs()){
-			if(j.isPaid()) sum++;
-		}
-		
-		PriceStep p  = u.getPriceStep();
-		if(p == null){
-			//create PriceStep
-			p = new PriceStep();
-			p.setUser(u);
-			u.setPriceStep(p);
-		}
-		p.setNumberofHistoricalJobs(sum);
-		//Reziproke Proportionalität
-		p.setPrice(new BigDecimal(100/(sum+1)));
-		
-		
-		em.persist(p);
-		
-		
+		return step.getPrice();
 		
 	}
+
+
+	
+	@Lock(LockType.WRITE)
+	@Override
+	public void storePriceStep(int numberOfJobs, BigDecimal price){
+		PriceStep step = new PriceStep();
+		step.setNumberofHistoricalJobs(numberOfJobs);
+		step.setPrice(price);
+		
+		//try retrieve PriceStep from DB
+		Query q = this.em.createQuery("select p from PriceStep p where p.numberofHistoricalJobs = :numJobs");
+		q.setParameter("numJobs", step.getNumberofHistoricalJobs());
+		List<PriceStep> result = (List<PriceStep>) q.getResultList();
+		
+		if(result == null || result.isEmpty()){
+			//step not exists in the db, persist it and add it to cache
+			em.persist(step);
+			steps.add(step);
+			Collections.sort(steps);
+		}else{
+			//step already exists update it with the new price, update cache
+			
+			result.get(0).setPrice(price);
+			for(PriceStep s : steps){
+				if(s.getNumberofHistoricalJobs() == result.get(0).getNumberofHistoricalJobs()) s.setPrice(price);
+			}
+			
+		}
+		
+
+	}
+
+
+	@PostConstruct
+	private void fillCache() {
+		Query q = em.createQuery("select p from PriceStep p");
+		
+		
+		steps = (List<PriceStep>) q.getResultList();
+		Collections.sort(steps);
+		
+	}
+	
+	
 
 	
 }
