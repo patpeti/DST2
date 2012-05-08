@@ -13,6 +13,7 @@ public class Main {
 		BeanCaller b = new BeanCaller();
 		b.callFillTestData();
 		b.callStorePriceSteps();
+		b.callJobManagement();
 	}
 	
 }

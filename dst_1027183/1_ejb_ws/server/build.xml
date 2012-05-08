@@ -50,7 +50,9 @@
             	<include name="dst2/server/interfaces/IGeneralManagementBean.class"/>
             	<include name="dst2/server/interfaces/IJobManagementBean.class"/>
             	<include name="dst2/server/utils/exceptions/jobmanagement/NotEnoughCPUException.class"/>
-            	<include name="dst2/server/utils/exceptions/jobmanagement/WrongUserNameOrPasswordException.class"/>
+            	<include name="dst2/server/utils/exceptions/jobmanagement/WrongUsernameOrPasswordException.class"/>
+            	<include name="dst2/server/utils/exceptions/jobmanagement/NoGridFoundException.class"/>
+            	<include name="dst2/server/utils/exceptions/jobmanagement/CacheEmtpyException.class"/>
             </fileset>
         </jar>
     </target>

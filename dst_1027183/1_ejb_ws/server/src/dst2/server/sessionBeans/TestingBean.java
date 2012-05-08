@@ -82,6 +82,7 @@ public class TestingBean implements TestingBeanInterface {
 		u1.setFirstName("Peter");
 		u1.setLastName("Patonai");
 		u1.setUsername("patonaipeter");
+		u1.setPassword("pass".getBytes());
 		
 		User u2 = new User();
 		u2.setAccountNo("0001");
@@ -96,6 +97,7 @@ public class TestingBean implements TestingBeanInterface {
 		u2.setFirstName("Agnes");
 		u2.setLastName("Patonai");
 		u2.setUsername("patonaiagnes");
+		u2.setPassword("pass".getBytes());
 		LOG.info("Users created");
 		//two membership
 		
@@ -137,6 +139,9 @@ public class TestingBean implements TestingBeanInterface {
 		admin.setClusters(clList);
 		LOG.info("Clusters created");
 		//five computer
+		
+		//
+		g1.setClusters(clList);
 		
 		Computer c1 = new Computer();
 		c1.setCpus(4);
