@@ -48,6 +48,9 @@
             	<!--<include name="dst2/server/sessionBeans/TestingBean.class"/>-->
                 <include name="dst2/server/interfaces/TestingBeanInterface.class"/>
             	<include name="dst2/server/interfaces/IGeneralManagementBean.class"/>
+            	<include name="dst2/server/interfaces/IJobManagementBean.class"/>
+            	<include name="dst2/server/utils/exceptions/jobmanagement/NotEnoughCPUException.class"/>
+            	<include name="dst2/server/utils/exceptions/jobmanagement/WrongUserNameOrPasswordException.class"/>
             </fileset>
         </jar>
     </target>
