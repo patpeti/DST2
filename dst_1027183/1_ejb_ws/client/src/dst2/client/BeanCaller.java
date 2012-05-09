@@ -1,5 +1,8 @@
 package dst2.client;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -171,6 +174,7 @@ public class BeanCaller{
 	public void callGeneralManagerForPrices() {
 	
 		Future<BigDecimal> bill = this.invokeBill();
+		
 		try {
 			LOG.info("BILL: "+ bill.get().intValue());
 		} catch (InterruptedException e) {
@@ -178,6 +182,7 @@ public class BeanCaller{
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		}
+		System.out.println("Finished");
 		
 	}
 	

@@ -15,6 +15,13 @@ public class Main {
 		b.callStorePriceSteps();
 		b.callJobManagement();
 		b.callJobManagement2();
+		
+		//waiting as wished in assignment, but commented out 'cause it's more expressive to just run the client twice...
+//		try {
+//			Thread.sleep(1000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		b.callGeneralManagerForPrices();
 	}
 	
