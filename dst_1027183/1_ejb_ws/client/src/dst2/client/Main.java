@@ -14,6 +14,7 @@ public class Main {
 		b.callFillTestData();
 		b.callStorePriceSteps();
 		b.callJobManagement();
+		b.callJobManagement2();
 	}
 	
 }

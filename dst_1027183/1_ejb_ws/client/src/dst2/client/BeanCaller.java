@@ -11,6 +11,7 @@ import javax.naming.NamingException;
 import dst2.server.interfaces.IGeneralManagementBean;
 import dst2.server.interfaces.IJobManagementBean;
 import dst2.server.interfaces.TestingBeanInterface;
+import dst2.server.utils.exceptions.jobmanagement.CacheEmptyException;
 import dst2.server.utils.exceptions.jobmanagement.NoGridFoundException;
 import dst2.server.utils.exceptions.jobmanagement.NotEnoughCPUException;
 import dst2.server.utils.exceptions.jobmanagement.WrongUsernameOrPasswordException;
@@ -58,8 +59,17 @@ public class BeanCaller{
 		IJobManagementBean j;
 		try {
 			j = (IJobManagementBean) InitialContext.doLookup("java:global/dst2_1/JobManagementBean");
-			
+			//invalid credentials
+		try{	
+			j.doLogin("Gandalf", "YouShallNotPass");
+			//valid
+		} catch (WrongUsernameOrPasswordException e) {
+			LOG.info(e.getMessage());
+		}try{	
 			j.doLogin("patonaipeter", "pass");
+		} catch (WrongUsernameOrPasswordException e) {
+			LOG.info(e.getMessage());
+		}
 			LOG.info("Login Successful");
 			List<String> params = new ArrayList<String>();
 			params.add("blabla");
@@ -78,6 +88,61 @@ public class BeanCaller{
 			BigDecimal b = j.getAllJobs(9);
 			LOG.info("All jobs in cache:" + b);
 			
+//			j.removeJobsFromGrid(9);
+//			LOG.info("Jobs deleted for grid 9 from cache");
+//			
+//			BigDecimal b2 = j.getAllJobs(9);
+//			LOG.info("All jobs in cache:" + b2);
+//			
+			j.submit();
+			LOG.info("Cache submitted");
+			
+		} catch (NamingException e) {
+			e.printStackTrace();
+		
+		} catch (NotEnoughCPUException e) {
+			LOG.info(e.getMessage());
+		} catch (NoGridFoundException e) {
+			LOG.info(e.getMessage());
+		} catch (CacheEmptyException e) {
+			LOG.info(e.getMessage());
+		}
+		
+	}
+	
+	public void callJobManagement2() {
+		IJobManagementBean j;
+		try {
+			j = (IJobManagementBean) InitialContext.doLookup("java:global/dst2_1/JobManagementBean");
+			//invalid credentials
+		try{	
+			j.doLogin("Gandalf", "YouShallNotPass");
+			//valid
+		} catch (WrongUsernameOrPasswordException e) {
+			LOG.info(e.getMessage());
+		}try{	
+			j.doLogin("patonaiagnes", "pass");
+		} catch (WrongUsernameOrPasswordException e) {
+			LOG.info(e.getMessage());
+		}
+			LOG.info("Login Successful");
+			List<String> params = new ArrayList<String>();
+			params.add("blabla");
+			params.add("parameter");
+			
+			j.addJob(9, 4, "job2_1",params );
+			LOG.info("Job Added Successfully to Cache");
+			
+			List<String> params2 = new ArrayList<String>();
+			params2.add("param1");
+			params2.add("parameter2");
+			
+			j.addJob(9, 50, "job2_2",params );
+			LOG.info("Job Added Successfully to Cache");
+			
+			BigDecimal b = j.getAllJobs(9);
+			LOG.info("All jobs in cache:" + b);
+			
 			j.removeJobsFromGrid(9);
 			LOG.info("Jobs deleted for grid 9 from cache");
 			
@@ -89,11 +154,12 @@ public class BeanCaller{
 			
 		} catch (NamingException e) {
 			e.printStackTrace();
-		} catch (WrongUsernameOrPasswordException e) {
-			LOG.info(e.getMessage());
+		
 		} catch (NotEnoughCPUException e) {
 			LOG.info(e.getMessage());
 		} catch (NoGridFoundException e) {
+			LOG.info(e.getMessage());
+		} catch (CacheEmptyException e) {
 			LOG.info(e.getMessage());
 		}
 		

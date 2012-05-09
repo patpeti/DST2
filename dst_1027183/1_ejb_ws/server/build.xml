@@ -52,7 +52,7 @@
             	<include name="dst2/server/utils/exceptions/jobmanagement/NotEnoughCPUException.class"/>
             	<include name="dst2/server/utils/exceptions/jobmanagement/WrongUsernameOrPasswordException.class"/>
             	<include name="dst2/server/utils/exceptions/jobmanagement/NoGridFoundException.class"/>
-            	<include name="dst2/server/utils/exceptions/jobmanagement/CacheEmtpyException.class"/>
+            	<include name="dst2/server/utils/exceptions/jobmanagement/CacheEmptyException.class"/>
             </fileset>
         </jar>
     </target>

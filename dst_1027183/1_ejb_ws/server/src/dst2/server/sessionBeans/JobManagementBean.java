@@ -171,17 +171,18 @@ public class JobManagementBean implements IJobManagementBean {
 	A REQUIRED method is guaranteed to always be executed in a transaction.
 	If the caller attempts to invoke the method outside of a transaction, 
 	the container will start a transaction, execute the method, then commit the transaction.
+	 * @throws CacheEmptyException 
 	**/
 	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void submit() throws NotEnoughCPUException {
+	public void submit() throws NotEnoughCPUException, CacheEmptyException {
 		//todo check
 		
 		//todo save
 		
 		//iterate over cahche
 		if(loggedInUser == null) new WrongUsernameOrPasswordException("Not Authenticated");
-		else if(cache == null || cache.isEmpty()) new CacheEmptyException("Nothing to submit");
+		else if(cache == null || cache.isEmpty())  throw new CacheEmptyException("Nothing to submit");
 		else{	
 		for(JobCache jc : cache){
 			List<Job> jobList = null;
