@@ -15,6 +15,7 @@ public class Main {
 		b.callStorePriceSteps();
 		b.callJobManagement();
 		b.callJobManagement2();
+		b.callGeneralManagerForPrices();
 	}
 	
 }

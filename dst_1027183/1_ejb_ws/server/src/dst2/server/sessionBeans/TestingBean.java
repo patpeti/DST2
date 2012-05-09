@@ -213,7 +213,7 @@ public class TestingBean implements TestingBeanInterface {
 		em.persist(e1);
 		Job j1 = new Job();
 		j1.setEnvironment(e1);
-		j1.setPaid(true);
+		j1.setPaid(false);
 		j1.setUser(u1);
 		em.persist(j1);
 		

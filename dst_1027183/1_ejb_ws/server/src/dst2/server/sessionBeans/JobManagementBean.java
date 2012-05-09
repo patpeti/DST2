@@ -231,11 +231,14 @@ public class JobManagementBean implements IJobManagementBean {
 						e.setStatus(JobStatus.SCHEDULED);
 						e.setStart(new Date());
 						e.setJob(j);
-						
+						j.setUser(loggedInUser);
 						exList.add(e);
 						em.persist(j.getEnvironment());
 						em.persist(j);
 						em.persist(e);
+						List<Job> userJobs = loggedInUser.getJobs();
+						userJobs.add(j);
+						loggedInUser.setJobs(userJobs);
 						
 					}
 					//select as many computer is needed

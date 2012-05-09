@@ -156,14 +156,14 @@ public class User extends Person{
 	}
 
 	public void setJobs(List<Job> jobs) {
-		if(jobs != null){
-			for(Job j : jobs){
-				j.setUser(this);
-			}
+//		if(jobs != null){
+//			for(Job j : jobs){
+//				j.setUser(this);
+//			}
 			this.jobs = jobs;
-		}else{
-			this.jobs = new ArrayList<Job>();
-		}
+//		}else{
+//			this.jobs = new ArrayList<Job>();
+//		}
 		
 	}
 

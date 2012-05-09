@@ -3,6 +3,8 @@ package dst2.client;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.logging.Logger;
 
 import javax.naming.InitialContext;
@@ -22,6 +24,7 @@ import dst2.server.utils.exceptions.jobmanagement.WrongUsernameOrPasswordExcepti
 
 public class BeanCaller{
 	private static final Logger LOG = Logger.getLogger(BeanCaller.class.getName());
+	private IGeneralManagementBean g;
 
 	public void callFillTestData(){
 		try {
@@ -40,7 +43,7 @@ public class BeanCaller{
 	public void callStorePriceSteps(){
 		try {
 		
-		IGeneralManagementBean g;
+		
 		
 		g = (IGeneralManagementBean) InitialContext.doLookup("java:global/dst2_1/GeneralManagementBean");
 		//int numJob = 600;
@@ -163,6 +166,29 @@ public class BeanCaller{
 			LOG.info(e.getMessage());
 		}
 		
+	}
+
+	public void callGeneralManagerForPrices() {
+	
+		Future<BigDecimal> bill = this.invokeBill();
+		try {
+			LOG.info("BILL: "+ bill.get().intValue());
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private Future<BigDecimal> invokeBill(){
+		
+			
+			return g.getTotalBill("patonaipeter");
+			
+			
+			
+	
 	}
 	
 }
