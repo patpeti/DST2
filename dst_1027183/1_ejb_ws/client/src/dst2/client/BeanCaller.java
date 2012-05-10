@@ -1,8 +1,5 @@
 package dst2.client;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +10,10 @@ import java.util.logging.Logger;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import dst2.server.dto.LogDataDto;
 import dst2.server.interfaces.IGeneralManagementBean;
 import dst2.server.interfaces.IJobManagementBean;
+import dst2.server.interfaces.ILogBean;
 import dst2.server.interfaces.TestingBeanInterface;
 import dst2.server.utils.exceptions.jobmanagement.CacheEmptyException;
 import dst2.server.utils.exceptions.jobmanagement.NoGridFoundException;
@@ -194,6 +193,22 @@ public class BeanCaller{
 			
 			
 	
+	}
+
+	public void callForLogs() {
+		ILogBean l;
+	
+			try {
+				l = (ILogBean) InitialContext.doLookup("java:global/dst2_1/LogBean");
+				List<LogDataDto> loglist = l.getLog();
+				for(LogDataDto log : loglist){
+					LOG.info(log.toString());
+				}
+				
+			} catch (NamingException e) {
+				e.printStackTrace();
+			}
+		
 	}
 	
 }

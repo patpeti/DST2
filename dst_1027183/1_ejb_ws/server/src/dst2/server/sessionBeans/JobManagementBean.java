@@ -13,12 +13,14 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 
 import dst2.server.dto.JobCache;
+import dst2.server.interceptor.AuditInterceptor;
 import dst2.server.interfaces.IJobManagementBean;
 import dst2.server.model.Computer;
 import dst2.server.model.Environment;
@@ -41,6 +43,7 @@ transaction, execute the method, then resume the caller's transaction.
 **/
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 @TransactionManagement(TransactionManagementType.CONTAINER)
+@Interceptors(value = AuditInterceptor.class)
 public class JobManagementBean implements IJobManagementBean {
 
 	

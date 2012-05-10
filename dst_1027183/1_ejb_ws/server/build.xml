@@ -49,10 +49,13 @@
                 <include name="dst2/server/interfaces/TestingBeanInterface.class"/>
             	<include name="dst2/server/interfaces/IGeneralManagementBean.class"/>
             	<include name="dst2/server/interfaces/IJobManagementBean.class"/>
+            	<include name="dst2/server/interfaces/ILogBean.class"/>
             	<include name="dst2/server/utils/exceptions/jobmanagement/NotEnoughCPUException.class"/>
             	<include name="dst2/server/utils/exceptions/jobmanagement/WrongUsernameOrPasswordException.class"/>
             	<include name="dst2/server/utils/exceptions/jobmanagement/NoGridFoundException.class"/>
             	<include name="dst2/server/utils/exceptions/jobmanagement/CacheEmptyException.class"/>
+            	<include name="dst2/server/dto/LogDataDto.class"/>
+            	<include name="dst2/server/dto/LogDataParamDto.class"/>
             </fileset>
         </jar>
     </target>

@@ -23,6 +23,7 @@ public class Main {
 //			e.printStackTrace();
 //		}
 		b.callGeneralManagerForPrices();
+		b.callForLogs();
 	}
 	
 }
